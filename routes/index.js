@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Client = require('mariasql');
-var inspect = require('util').inspect;
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -24,7 +24,7 @@ router.get('/', function(req, res, next) {
   c.query(sql)
     .on('result',function (queryRes) {
       queryRes.on('row',function (row) {
-        console.log('Result row: ' + inspect(row));
+
         var obj = {};
         obj.title = 'Express';
       
