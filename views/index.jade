@@ -3,3 +3,13 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
+
+  ul
+    for v,i in list
+      li
+        a(href="#{list[i].url}", target="_blank") #{list[i].title}
+        
+  form#addUrl(method="GET",action="./")
+    input(type="text",name="title")
+    input(type="url",name="url")
+    input(type="submit")
