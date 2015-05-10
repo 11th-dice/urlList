@@ -14,6 +14,8 @@
 
 	var link = document.getElementById('bookmarklet');
 	link.href = 'javascript:(' + setUrl.toString() + ')();';
+	var bookmarkletText = document.getElementById('bookmarkletText');
+	bookmarkletText.value = 'javascript:(' + setUrl.toString() + ')();';
 })();
 
 
