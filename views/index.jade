@@ -1,15 +1,19 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+	h1= title
+	p Welcome to #{title}
 
-  ul
-    for v,i in list
-      li
-        a(href="#{list[i].url}", target="_blank") #{list[i].title}
-        
-  form#addUrl(method="GET",action="./")
-    input(type="text",name="title")
-    input(type="url",name="url")
-    input(type="submit")
+	form#deleteUrl(method="GET",action="./")
+		for v,i in list
+			div
+				input(type="checkbox",name="deleteUrl",value="#{list[i].url}")
+				a(href="#{list[i].url}", target="_blank") #{list[i].title}
+		input(type="hidden",name="mode",value="delete")
+		input(type="submit",value="削除")
+
+	form#addUrl(method="GET",action="./")
+		input(type="text",name="title")
+		input(type="url",name="url")
+		input(type="hidden",name="mode",value="update")
+		input(type="submit")
