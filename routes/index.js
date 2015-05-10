@@ -30,8 +30,9 @@ router.get('/', function (req, res, next) {
 
 
 	var obj = {};
-	obj.title = 'Express';
+	obj.title = 'urlList';
 	obj.list = [];
+
 	sql = 'select * from urlListTitles inner join urlListStatus on urlListTitles.url = urlListStatus.url \
 where sts <> 9;';
 	c.query(sql)

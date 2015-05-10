@@ -1,8 +1,8 @@
 extends layout
 
 block content
-	h1= title
-	p Welcome to #{title}
+	h1
+		a(href="./")= title
 
 	form#deleteUrl(method="GET",action="./")
 		for v,i in list
@@ -17,3 +17,6 @@ block content
 		input(type="url",name="url")
 		input(type="hidden",name="mode",value="update")
 		input(type="submit")
+
+	a#bookmarklet bookmarklet
+	script(src="./javascripts/bookmarklet.js")
