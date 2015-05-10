@@ -25,7 +25,7 @@ module.exports.updateUrlList = function (c, url, title) {
 
 module.exports.deleteUrlList = function (c, argUrl) {
 		var arrUrl;
-		if (_.isArray(arrUrl)){
+		if (_.isArray(argUrl)){
 			arrUrl = argUrl;
 		} else {
 			arrUrl = [argUrl];
