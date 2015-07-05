@@ -7,7 +7,7 @@
 			httpObj = new XMLHttpRequest('MSXML2.XMLHTTP.3.0');
 		}
 
-		httpObj.open("GET", "http://192.168.1.10:3000/?url=" + location.href +
+		httpObj.open("GET", "http://192.168.1.3:3001/?url=" + location.href +
 			"&title=" + document.title + '&mode=update', true);
 		httpObj.send(null);
 	}
