@@ -4,7 +4,7 @@ var Client = require('mariasql');
 var updateUrlList = require('../models/update').updateUrlList;
 var deleteUrlList = require('../models/update').deleteUrlList;
 var connectDB = require('../setting/connectDB.json');
-
+var _ = require('lodash');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -26,22 +26,26 @@ router.get('/', function (req, res, next) {
 			break;
 	}
 
-
-
-
 	var obj = {};
 	obj.title = 'urlList';
 	obj.list = [];
 
-	sql = 'select * from urlListTitles inner join urlListStatus on urlListTitles.url = urlListStatus.url \
-where sts <> 9;';
+	sql = 'SELECT title.url, title.title, sts.sts, it.insertTime ';
+	sql += 'FROM urlListTitles title ';
+	sql += 'INNER JOIN urlListStatus sts ON title.url = sts.url ';
+	sql += 'LEFT JOIN urlListInsTime it ON title.url = it.url ';
+	sql += 'WHERE sts <> 9 ';
+	sql += 'ORDER BY it.insertTime desc;';
 	c.query(sql)
 		.on('result', function (queryRes) {
 		queryRes.on('row', function (row) {
-
+			var insertTime = row.insertTime;
+			if (!insertTime) insertTime = '';
+			 
 			obj.list.push({
 				title: row.title,
 				url: row.url,
+				insertTime: insertTime,
 				sts: row.sts
 			});
 		})

@@ -20,6 +20,13 @@ module.exports.updateUrlList = function (c, url, title) {
 		.on('error', function (err) {
 		console.log(err);
 	});
+	
+	sql = 'INSERT INTO urlListInsTime (url, insertTime) VALUES ( :url, :insertTime);';	
+	var insertTime = new Date();
+	c.query(sql, {url: url, insertTime: insertTime.toLocaleString()})
+		.on('error', function (err) {
+			console.log(err);
+		});
 };
 
 
