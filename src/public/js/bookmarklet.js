@@ -1,15 +1,9 @@
 (function () {
 	function setUrl() {
-		var httpObj;
-		if (window.XMLHttpRequest) {
-			httpObj = new XMLHttpRequest();
-		} else if (window.ActiveXObject) {
-			httpObj = new XMLHttpRequest('MSXML2.XMLHTTP.3.0');
-		}
+		var xhr = new XMLHttpRequest();
 
-		httpObj.open("GET", "http://192.168.1.3:3001/?url=" + location.href +
-			"&title=" + document.title + '&mode=update', true);
-		httpObj.send(null);
+		xhr.open("GET", "http://192.168.1.3:3001/?url=" + location.href + "&title=" + document.title + '&mode=update', true);
+		xhr.send(null);
 	}
 
 	var link = document.getElementById('bookmarklet');
