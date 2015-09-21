@@ -3,3 +3,4 @@
 .settings/
 /typings/
 .DS_Store
+/dest/
