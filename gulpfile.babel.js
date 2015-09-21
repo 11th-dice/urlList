@@ -12,7 +12,7 @@ gulp.task('lint', () => {
 });
 
 let jadePath = ['./src/views/**.jade'];
-let staticPath = ['./src/public/**.*'];
+let staticPath = ['./src/public/**/**.*'];
 let babelPath = ['./bin/**','./src/**/*.js'];
 let watchPath = [...jadePath, ...staticPath, ...babelPath ];
 
