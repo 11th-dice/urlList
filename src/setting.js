@@ -4,6 +4,12 @@ let settingDev = {
 		'user': 'root',
 		'password': '',
 		'db': 'urlList'
+	},
+	testdb:{
+		'host': 'localhost',
+		'user': 'root',
+		'password': '',
+		'db': 'urlListTest'
 	}
 
 };
