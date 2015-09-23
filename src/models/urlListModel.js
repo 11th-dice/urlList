@@ -13,14 +13,10 @@ export function getUrlList (client, cb) {
 	
 	client.query(sql)
 		.on('result', (queryRes) => {
-			queryRes.on('row', (row) => {
-				let insertTime = row.insertTime || '';
-				
+			queryRes.on('row', (row) => {				
 				urlList.push({
 					title: row.title,
-					url: row.url,
-					insertTime: insertTime,
-					sts: row.sts
+					url: row.url
 				});
 			})
 			.on('end', (info) => cb(urlList));
