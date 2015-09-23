@@ -14,6 +14,7 @@
 		"blockBindings": true,
 		"classes": true,
 		"defaultParams": true,
+		"destructuring": true,
 		"forOf": true,
 		"generators": true,
 		"modules": true,
@@ -24,10 +25,12 @@
 		"octalLiterals": true,
 		"regexUFlag": true,
 		"regexYFlag": true,
+		"spread":true,
 		"superInFunctions": true,
 		"templateStrings": true,
 		"unicodeCodePointEscapes": true,
 		"globalReturn": true,
-		"jsx": true
+		"jsx": true,
+		"experimentalObjectRestSpread": true
 	}
 }
