@@ -2,7 +2,7 @@ import express from 'express';
 let router = express.Router();
 import Client  from 'mariasql';
 
-import {settings} from '../setting';
+import settings from '../setting';
 import {getUrlList, updateUrlList, deleteUrlList} from '../models/urlListModel';
 
 let connectDB = settings.db;

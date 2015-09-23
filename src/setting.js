@@ -24,4 +24,4 @@ if (process.env.NODE_ENV === 'production') {
 	settings = settingDev;
 }
 
-export {settings};
+export default settings;
