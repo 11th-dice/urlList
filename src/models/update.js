@@ -1,4 +1,3 @@
-var Client = require('mariasql');
 var _ = require('lodash');
 var sql;
 

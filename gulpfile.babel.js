@@ -4,17 +4,20 @@ import gulp from 'gulp';
 import eslint from 'gulp-eslint';
 import babel from 'gulp-babel';
 
+
+let lintPath = ['./*.js', './src/**/*.js'];
+let jadePath = ['./src/views/**.jade'];
+let staticPath = ['./src/public/**/**.*'];
+let babelPath = ['./bin/**','./src/**/*.js'];
+
+let watchPath = [...lintPath, ...jadePath, ...staticPath, ...babelPath ];
+
 gulp.task('lint', () => {
-  return gulp.src(['./*.js', './src/**/*.js'])
+  return gulp.src(lintPath)
     .pipe(eslint())
     .pipe(eslint.format())
     .pipe(eslint.failOnError());
 });
-
-let jadePath = ['./src/views/**.jade'];
-let staticPath = ['./src/public/**/**.*'];
-let babelPath = ['./bin/**','./src/**/*.js'];
-let watchPath = [...jadePath, ...staticPath, ...babelPath ];
 
 gulp.task('build', ['build:jade', 'build:babel', 'build:statics']);
 
@@ -36,5 +39,5 @@ gulp.task('build:babel', () => {
 
 
 gulp.task('watch', () => {
-  gulp.watch(watchPath, ['build']);
+  gulp.watch(watchPath, ['lint','build']);
 });

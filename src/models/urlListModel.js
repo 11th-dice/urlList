@@ -1,5 +1,3 @@
-import lodash from 'lodash';
-
 
 export function getUrlList (client, cb) {
 	let sql;

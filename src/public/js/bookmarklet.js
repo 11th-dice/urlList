@@ -2,7 +2,7 @@
 	function setUrl() {
 		var xhr = new XMLHttpRequest();
 
-		xhr.open("GET", "http://192.168.1.3:3001/?url=" + location.href + "&title=" + document.title + '&mode=update', true);
+		xhr.open('GET', 'http://192.168.1.3:3001/?url=' + location.href + '&title=' + document.title + '&mode=update', true);
 		xhr.send(null);
 	}
 

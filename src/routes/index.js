@@ -4,7 +4,6 @@ var Client = require('mariasql');
 var updateUrlList = require('../models/update').updateUrlList;
 var deleteUrlList = require('../models/update').deleteUrlList;
 var connectDB = require('../../setting/connectDB.json');
-var _ = require('lodash');
 
 import {getUrlList} from '../models/urlListModel';
 
