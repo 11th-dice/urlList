@@ -1,19 +1,19 @@
 let settingDev = {
 	db: {
-		"host": "localhost",
-		"user": "root",
-		"password": "",
-		"db": "urlList"
+		'host': 'localhost',
+		'user': 'root',
+		'password': '',
+		'db': 'urlList'
 	}
 
 };
 
 let settingPrd = {
 	db: {
-		"host": "192.168.1.3",
-		"user": "appUser",
-		"password": "",
-		"db": "urlList"
+		'host': '192.168.1.3',
+		'user': 'appUser',
+		'password': '',
+		'db': 'urlList'
 	}
 };
 

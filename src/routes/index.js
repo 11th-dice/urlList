@@ -1,11 +1,9 @@
 import express from 'express';
 let router = express.Router();
 import Client  from 'mariasql';
-var updateUrlList = require('../models/update').updateUrlList;
-var deleteUrlList = require('../models/update').deleteUrlList;
 
 import {settings} from '../setting';
-import {getUrlList} from '../models/urlListModel';
+import {getUrlList, updateUrlList, deleteUrlList} from '../models/urlListModel';
 
 let connectDB = settings.db;
 
@@ -31,7 +29,7 @@ router.get('/', function (req, res, next) {
 	obj.title = 'urlList';
 	obj.list = [];
 
-	getUrlList(c, (urlList)=>{
+	getUrlList(c, (urlList) => {
 		obj.list = urlList;
 		res.render('index', obj);
 	});
