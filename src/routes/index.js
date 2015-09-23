@@ -1,12 +1,13 @@
-var express = require('express');
-var router = express.Router();
-var Client = require('mariasql');
+import express from 'express';
+let router = express.Router();
+import Client  from 'mariasql';
 var updateUrlList = require('../models/update').updateUrlList;
 var deleteUrlList = require('../models/update').deleteUrlList;
-var connectDB = require('../../setting/connectDB.json');
 
+import {settings} from '../setting';
 import {getUrlList} from '../models/urlListModel';
 
+let connectDB = settings.db;
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -37,5 +38,20 @@ router.get('/', function (req, res, next) {
 
 });
 
+router.put('/', (req, res, next) => {
+	let c = new Client();
+	c.connect(connectDB);
+	
+	updateUrlList(c, req.query.url, req.query.title);
+	res.redirect('/');
+});
+
+router.delete('/', (req, res, next) => {
+	let c = new Client();
+	c.connect(connectDB);
+	
+	deleteUrlList(c, req.query.deleteUrl);
+	res.redirect('/');
+});
 
 module.exports = router;
