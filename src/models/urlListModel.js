@@ -1,66 +1,60 @@
 import _ from 'lodash';
+import Promise from 'bluebird';
 
-export function getUrlList (client, cb) {
+export function getUrlList (client) {
 	let sql;
-	sql = 'SELECT title.url, title.title, sts.sts, it.insertTime ';
+	sql = 'SELECT title.url, title.title ';
 	sql += 'FROM urlListTitles title ';
 	sql += 'INNER JOIN urlListStatus sts ON title.url = sts.url ';
 	sql += 'LEFT JOIN urlListInsTime it ON title.url = it.url ';
 	sql += 'WHERE sts <> 9 ';
 	sql += 'ORDER BY it.insertTime desc;';
 	
-	let urlList = [];
-	
-	client.query(sql)
-		.on('result', (queryRes) => {
-			queryRes.on('row', (row) => {				
-				urlList.push({
-					title: row.title,
-					url: row.url
-				});
-			})
-			.on('end', (info) => cb(urlList));
-		});
-		
-		client.end();
-		
+	return getExecuteQueryPromise(client, sql);
 };
 
 export function updateUrlList (c, url, title) {
 	if (!url || !title) return;
-	let sql = '';
-	sql = 'INSERT INTO urlListTitles (url,title) VALUES ( :url, :title); ';
-
-	c.query(sql, { url, title })
-		.on('error', (err) => {
-			console.log(err);
-		});
-
-	sql = 'INSERT INTO urlListStatus (url) VALUES ( :url );';
-	c.query(sql, { url })
-		.on('error', function (err) {
-			console.log(err);
-		});
-
-	sql = 'INSERT INTO urlListInsTime (url, insertTime) VALUES ( :url, :insertTime);';
-	var insertTime = (new Date()).toLocaleString();
-	c.query(sql, { url, insertTime })
-		.on('error', function (err) {
-			console.log(err);
-		});
+	let queryTitles, queryStatus, queryTime;
+	queryTitles = 'INSERT INTO urlListTitles (url,title) VALUES ( :url, :title); ';
+	queryStatus = 'INSERT INTO urlListStatus (url) VALUES ( :url );';
+	queryTime = 'INSERT INTO urlListInsTime (url, insertTime) VALUES ( :url, :insertTime);';
+	let insertTime = (new Date()).toLocaleString();
+	
+	let arrQueries = [
+		getExecuteQueryPromise(c, queryTitles, {url, title})
+		,getExecuteQueryPromise(c, queryTime, { url, insertTime })
+		,getExecuteQueryPromise(c, queryStatus, { url })
+		];
+		
+	return Promise.all(arrQueries)
+	.catch((err) => {
+		console.log(err);
+		return err;
+	});
 };
 
 export function deleteUrlList (c, argUrl) {
-	let arrUrl;
-
-	if (_.isArray(argUrl)) {
-	arrUrl = argUrl;
-	} else {
-	arrUrl = [argUrl];
-	}
-
-	_.each(arrUrl, function (val, i) {
-	c.query('update urlListStatus set sts = 9 where url = :url;',
-		{ url: val });
+	return new Promise((resolve, reject) => {
+		let arrUrl,query;
+		arrUrl = _.isArray(argUrl) ? argUrl : [argUrl];
+			
+		query = 'UPDATE urlListStatus SET sts = 9 ';
+		_.forEach(arrUrl, (val, i) => i === 0 ? query += `url = ${val} ` : query += `or url = ${val} `);
+		return getExecuteQueryPromise(c, query);
 	});
 };
+
+function getExecuteQueryPromise(client, query, queryArg = undefined) {
+	return new Promise((resolve, reject) => {
+		let result = [];
+		client.query(query, queryArg)
+			.on('result', (res) => {
+				res
+				.on('error', reject)
+				.on('row', (row) => { if (row) result.push(row); })
+				.on('end', (info) => { resolve(result || info); });
+			})
+			.on('error', reject)
+	});	
+}

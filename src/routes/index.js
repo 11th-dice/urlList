@@ -1,6 +1,7 @@
 import express from 'express';
 let router = express.Router();
 import Client  from 'mariasql';
+import Promise from 'bluebird';
 
 import settings from '../setting';
 import {getUrlList, updateUrlList, deleteUrlList} from '../models/urlListModel';
@@ -9,31 +10,31 @@ let connectDB = settings.db;
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-	var c = new Client();
+	let c = new Client();
 	c.connect(connectDB);
+	let obj = {};
+	
+	Promise.resolve(req.query.mode)
+		.then((mode) => {
+			if (mode === 'update') {
+				return updateUrlList(c, req.query.url, req.query.title);
+			} else if(mode === 'delete'){
+				return deleteUrlList(c, req.query.deleteUrl);
+			} else {
+				return;
+			}
+		})
+		.then(() => {
 
-	switch (req.query.mode) {
-		case 'update':
-			updateUrlList(c, req.query.url, req.query.title);
-			break;
+			obj.title = 'urlList';
+			obj.list = [];
 
-		case 'delete':
-			deleteUrlList(c, req.query.deleteUrl);
-			break;
-
-		default:
-			break;
-	}
-
-	var obj = {};
-	obj.title = 'urlList';
-	obj.list = [];
-
-	getUrlList(c, (urlList) => {
-		obj.list = urlList;
-		res.render('index', obj);
-	});
-
+			return getUrlList(c);
+		})
+		.then((urlList) => {
+			obj.list = urlList;
+			res.render('index', obj);
+		});
 });
 
 router.put('/', (req, res, next) => {
