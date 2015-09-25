@@ -58,5 +58,29 @@ describe('updateUrlList', function () {
 				expect(resultUrlList).to.deep.equal(urlList);
 			});
 	});
+});
 
+describe('delete', function () {
+	let deleteUrl = {
+		title: 'hogehoge',
+		url: 'http://www.hoge/fuga' + (new Date).getTime()
+	};
+	
+	before(() => {
+		c = new Client();
+		c.connect(settings.testdb);
+		return updateUrlList(c, deleteUrl.url, deleteUrl.title);
+	});
+	after(() => {
+		return deleteUrlList(deleteUrl.url)
+			.then(() => {c.destroy();}, () => {c.destroy();});
+	});
+	
+	it('delete 正常系', function () {
+		return deleteUrlList(c, deleteUrl.url)
+			.then(() => getUrlList(c))
+			.then((resultUrlList) => {
+				expect(resultUrlList).to.deep.equal(defaultUrlList);
+			});
+	});
 });
