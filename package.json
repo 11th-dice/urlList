@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./dest/bin/www.js"
+    "start": "node ./dest/bin/www.js",
+    "build": "gulp build"
   },
   "dependencies": {
     "body-parser": "~1.12.0",
