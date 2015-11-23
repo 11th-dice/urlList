@@ -35,7 +35,7 @@ router.post('/', (req, res, next) => {
 router.get('/delete', (req, res, next) => {
   db.urllist.update({
     sts: 9
-  }, { where: { id: () => _.isArray(req.query.id) ? { in: req.query.id } : req.query.id }})
+  }, { where: { id: _.isArray(req.query.id) ? { in: req.query.id } : req.query.id }})
   .then((result) => {
     res.redirect('/');
   });
