@@ -10,7 +10,7 @@ import mocha from 'gulp-mocha';
 let lintPath = ['./*.js', './src/**/*.js'];
 let testPath = ['./test/**/*.js'];
 let jadePath = ['./src/views/**.jade'];
-let staticPath = ['./src/public/**/**.*'];
+let staticPath = ['./src/public/**/**.*', './src/config/*.*'];
 let babelPath = ['./bin/**','./src/**/*.js'];
 
 let watchPath = [...lintPath, ...testPath, ...jadePath, ...staticPath, ...babelPath ];

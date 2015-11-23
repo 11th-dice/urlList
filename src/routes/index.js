@@ -1,40 +1,25 @@
 import express from 'express';
-let router = express.Router();
-import Client  from 'mariasql';
-import Promise from 'bluebird';
+const router = express.Router();
+const db = require('../models');
+const _ = require('lodash');
 
-import settings from '../setting';
-import {getUrlList, updateUrlList, deleteUrlList} from '../models/urlListModel';
-
-let connectDB = settings.db;
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-	let c = new Client();
-	c.connect(connectDB);
-	let obj = {};
-	
-	Promise.resolve(req.query.mode)
-		.then((mode) => {
-			if (mode === 'update') {
-				return updateUrlList(c, req.query.url, req.query.title);
-			} else if(mode === 'delete'){
-				return deleteUrlList(c, req.query.deleteUrl);
-			} else {
-				return;
-			}
-		})
-		.then(() => {
-
-			obj.title = 'urlList';
-			obj.list = [];
-
-			return getUrlList(c);
-		})
-		.then((urlList) => {
-			obj.list = urlList;
-			res.render('index', obj);
-		});
+  db.urllist.findAll()
+    .then((urllists) => {
+      let model = {};
+      model.title = 'urllist';
+      model.list = [];
+      _.forEach(urllists, (urllist) => {
+        model.list.push({
+          id: urllist.id
+          , url: urllist.url
+          , title: urllist.title
+        });
+      });
+      res.render('index', model);
+    });
 });
 
 router.put('/', (req, res, next) => {
