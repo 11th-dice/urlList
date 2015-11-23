@@ -14,9 +14,9 @@
     "dialect": "mysql"
   },
   "production": {
-    "username": "root",
+    "username": "appUser",
     "password": null,
-    "database": "database_production",
+    "database": "urlList",
     "host": "127.0.0.1",
     "dialect": "mysql"
   }
