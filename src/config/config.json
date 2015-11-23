@@ -15,7 +15,7 @@
   },
   "production": {
     "username": "appUser",
-    "password": null,
+    "password": "kszk3081abk",
     "database": "urlList",
     "host": "127.0.0.1",
     "dialect": "mysql"

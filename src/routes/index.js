@@ -24,8 +24,8 @@ router.get('/', function (req, res, next) {
 
 router.post('/', (req, res, next) => {
   db.urllist.upsert({
-    title: req.body.title
-    , url: req.body.url
+    title: req.body.title || req.query.title
+    , url: req.body.url || req.query.url
     })
     .then((result) => {
       res.redirect('/');
