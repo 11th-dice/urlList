@@ -1,8 +1,8 @@
 (function () {
 	function setUrl() {
 		var xhr = new XMLHttpRequest();
-
-		xhr.open('POST', 'http://192.168.1.3:3000/?url=' + location.href + '&title=' + document.title, true);
+    var url = encodeURIComponent('http://192.168.1.3:3000/?url=' + location.href + '&title=' + document.title);
+		xhr.open('POST', url, true);
 		xhr.send(null);
 	}
 
