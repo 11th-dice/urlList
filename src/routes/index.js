@@ -26,7 +26,6 @@ router.post('/', (req, res, next) => {
   db.urllist.upsert({
     title: req.body.title
     , url: req.body.url
-    , sts: 0
     })
     .then((result) => {
       res.redirect('/');
