@@ -6,7 +6,7 @@ const _ = require('lodash');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  db.urllist.findAll()
+  db.urllist.findAll({ where: { sts: 0 }})
     .then((urllists) => {
       let model = {};
       model.title = 'urllist';
@@ -22,20 +22,24 @@ router.get('/', function (req, res, next) {
     });
 });
 
-router.put('/', (req, res, next) => {
-	let c = new Client();
-	c.connect(connectDB);
-	
-	updateUrlList(c, req.query.url, req.query.title);
-	res.redirect('/');
+router.post('/', (req, res, next) => {
+  db.urllist.upsert({
+    title: req.body.title
+    , url: req.body.url
+    , sts: 0
+    })
+    .then((result) => {
+      res.redirect('/');
+    });
 });
 
-router.delete('/', (req, res, next) => {
-	let c = new Client();
-	c.connect(connectDB);
-	
-	deleteUrlList(c, req.query.deleteUrl);
-	res.redirect('/');
+router.get('/delete', (req, res, next) => {
+  db.urllist.update({
+    sts: 9
+  }, { where: { id: { in: req.query.id }}})
+  .then((result) => {
+    res.redirect('/');
+  });
 });
 
 module.exports = router;
