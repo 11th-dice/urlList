@@ -12,8 +12,12 @@ let testPath = ['./test/**/*.js'];
 let jadePath = ['./src/views/**.jade'];
 let staticPath = ['./src/public/**/**.*', './src/config/*.*'];
 let babelPath = ['./bin/**','./src/**/*.js'];
+const mc = './node_modules/materialize-css/dist';
+const jq = './node_modules/jQuery/dist';
+const npmJs = [`${mc}/js/materialize.min.js`, `${jq}/jquery.min.js`];
+const npmCss = [`${mc}/css/materialize.min.css`];
 
-let watchPath = [...lintPath, ...testPath, ...jadePath, ...staticPath, ...babelPath ];
+let watchPath = [...testPath, ...jadePath, ...staticPath, ...babelPath ];
 
 gulp.task('lint', () => {
   return gulp.src(lintPath)
@@ -27,7 +31,7 @@ gulp.task('mocha', () => {
     .pipe(mocha({ reporter: 'nyan'}));
 })
 
-gulp.task('build', ['build:jade', 'build:babel', 'build:statics']);
+gulp.task('build', ['build:jade', 'build:babel', 'build:statics', 'build:npm-js', 'build:npm-css']);
 
 gulp.task('build:jade', () => {
   return gulp.src(jadePath, {base: 'src'})
@@ -38,6 +42,15 @@ gulp.task('build:statics', () => {
   return gulp.src(staticPath, {base: 'src'})
     .pipe(gulp.dest('dest'));
 });
+gulp.task('build:npm-js', () => {
+  return gulp.src(npmJs)
+    .pipe(gulp.dest('dest/public/js'));
+});
+gulp.task('build:npm-css', () => {
+  return gulp.src(npmCss)
+    .pipe(gulp.dest('dest/public/css'));
+});
+
 
 gulp.task('build:babel', () => {
   return gulp.src(babelPath)
@@ -47,5 +60,5 @@ gulp.task('build:babel', () => {
 
 
 gulp.task('watch', () => {
-  gulp.watch(watchPath, ['lint', 'mocha','build']);
+  gulp.watch(watchPath, ['mocha','build']);
 });
