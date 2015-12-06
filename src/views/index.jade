@@ -7,19 +7,23 @@ block content
   form#deleteUrl(method="get",action="/delete")
     for v,i in list
       div
-        input(type="checkbox" name="id",value="#{list[i].id}")
-        a(href="#{list[i].url}" target="_blank") #{list[i].title}
+        p
+          input(type="checkbox" id='#{i}' name="id",value="#{list[i].id}")
+          label(for='#{i}')
+            a(href="#{list[i].url}" target="_blank") #{list[i].title}
     input(type="submit",value="削除")
 
-  form#addUrl(method="post",action="/")
-    |title
-    input(type="text",name="title")
-    br
-    |url
-    input(type="url",name="url")
-    input(type="submit")
-
-  a#bookmarklet bookmarklet
-  br
-  textarea#bookmarkletText(size="100")
-  script(src="./js/bookmarklet.js")
+  div(class='row')
+    div(class='col s6')
+      form#addUrl(method="post",action="/")
+        |title
+        input(type="text",name="title")
+        br
+        |url
+        input(type="url",name="url")
+        input(type="submit")
+    
+      a#bookmarklet bookmarklet
+      br
+      textarea#bookmarkletText(size="100")
+      script(src="./js/bookmarklet.js")
